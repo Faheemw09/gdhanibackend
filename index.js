@@ -8,10 +8,11 @@ require("dotenv").config();
 const userRoutes = require("./Routes/user.routes");
 const cartRoutes = require("./Routes/cart.routes");
 const productsRoutes = require("./Routes/productRoutes");
-
+const orderRoutes = require("./Routes/order.routes");
 app.use("/api", userRoutes);
 app.use("/api", productsRoutes);
 app.use("/api", cartRoutes);
+app.use("/api", orderRoutes);
 app.use("/uploads", express.static("uploads"));
 
 app.listen(process.env.port, async () => {

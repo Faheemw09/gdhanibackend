@@ -2,6 +2,7 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const userModels = require("../models/userModels");
 const productsModel = require("../models/productsModel");
+const orderModel = require("../models/order.Model");
 exports.Signup = async (req, res) => {
   const { email, password, name } = req.body;
   try {
@@ -87,8 +88,8 @@ exports.getDashboardCounts = async (req, res) => {
   try {
     const registeredUsersCount = await userModels.countDocuments();
     const productCount = await productsModel.countDocuments();
+    const orderCount = await orderModel.countDocuments();
 
-    // 24 hours ago
     const twentyFourHoursAgo = new Date(Date.now() - 24 * 60 * 60 * 1000);
     const loggedInUsers = await userModels.find({
       lastLogin: { $gte: twentyFourHoursAgo },
@@ -99,8 +100,9 @@ exports.getDashboardCounts = async (req, res) => {
     res.status(200).json({
       registeredUsersCount,
       productCount,
+      orderCount,
       loggedInUsersCount,
-      loggedInUsers, // This will contain the users who logged in in the last 24 hours
+      loggedInUsers,
     });
   } catch (error) {
     console.error(error);
